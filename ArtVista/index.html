@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArtVista - Virtual Art Gallery</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <style>
+    .slideshow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: center;
+      height: 70vh;
+      background-color: rgb(127, 221, 255);
+    }
+
+    .slides {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .slide {
+      opacity: 0;
+      transition-duration: 1s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transition-duration: 1s;
+    }
+
+    .slide img {
+      max-width: 400px;
+      max-height: 400px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .artwork-description {
+      background-color: white;
+      padding: 20px;
+      text-align: center;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .artwork-description h3,
+    .artwork-description p {
+      margin-bottom: 10px;
+    }
+
+    .artwork-description audio {
+      margin-top: 10px;
+    }
+
+    .pause-button {
+      display: flex;
+      justify-content: center;
+      margin-top: 60px;
+    }
+
+    .body-class{
+      background-color: rgb(127, 221, 255);
+    }
+  </style>
+</head>
+<body class="body-class">
+  <nav class="bg-gray-800 py-4">
+    <div class="container mx-auto">
+      <a class="text-white text-2xl font-bold" href="#">ArtVista</a>
+    </div>
+  </nav>
+
+  <main class="container mx-auto py-10">
+    <section id="gallery">
+      <div class="slideshow">
+        <div class="slides">
+          <div class="slide active">
+            <a href="Starry_Night.jpg" class="artwork-link" target="_blank">
+              <img src="Starry_Night.jpg" alt="Starry Night" class="artwork-image">
+              <div class="artwork-description">
+                <h3>Starry Night</h3>
+                <p>Starry Night is an oil painting created by Dutch post-impressionist artist Vincent van Gogh in 1889. It depicts the view from his asylum room window at Saint-Rémy-de-Provence.</p>
+                <audio controls>
+                  <source src="starry_night_audio.mp3" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </a>
+          </div>
+          <div class="slide">
+            <a href="Mona_Lisa.jpg" class="artwork-link" target="_blank">
+              <img src="Mona_Lisa.jpg" alt="Mona Lisa" class="artwork-image">
+              <div class="artwork-description">
+                <h3>Mona Lisa</h3>
+                <p>Mona Lisa is a portrait painting by Italian artist Leonardo da Vinci, created between 1503 and 1506. It is one of the most famous and iconic artworks in the world.</p>
+                <audio controls>
+                  <source src="mona_lisa_audio.mp3" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </a>
+          </div>
+          <div class="slide">
+            <a href="The_Scream.jpg" class="artwork-link" target="_blank">
+              <img src="The_Scream.jpg" alt="The Scream" class="artwork-image">
+              <div class="artwork-description">
+                <h3>The Scream</h3>
+                <p>The Scream is a composition by Norwegian painter Edvard Munch, completed in 1893. It is known for its expressionistic depiction of anxiety and existential dread.</p>
+                <audio controls>
+                  <source src="the_scream_audio.mp3" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pause-button">
+        <button class="px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none" id="pauseButton">Pause</button>
+      </div>
+
+      <div class="mt-10" >
+        <h2 class="text-xl font-semibold mb-4">Leave a Comment</h2>
+        <form class="mb-4">
+          <div class="flex flex-col mb-4">
+            <label for="name" class="font-semibold mb-1">Your Name:</label>
+            <input type="text" id="name" name="name" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none w-80">
+          </div>
+          <div class="flex flex-col mb-4">
+            <label for="comment" class="font-semibold mb-1">Comment:</label>
+            <textarea id="comment" name="comment" rows="4" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none w-80"></textarea>
+          </div>
+          <button type="submit" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none">Submit</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-200 py-4">
+    <div class="container mx-auto">
+      <p class="text-center">&copy; 2023 ArtVista. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    let slideshowInterval = setInterval(playSlideShow, 2000);
+    const pauseButton = document.getElementById('pauseButton');
+
+    pauseButton.addEventListener('click', () => {
+      if (slideshowInterval) {
+        clearInterval(slideshowInterval);
+        slideshowInterval = null;
+        pauseButton.textContent = 'Play';
+      } else {
+        slideshowInterval = setInterval(playSlideShow, 2000);
+        pauseButton.textContent = 'Pause';
+      }
+    });
+
+    const slideshowContainer = document.querySelector('.slideshow');
+
+    function playSlideShow() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+  </script>
+</body>
+</html>
